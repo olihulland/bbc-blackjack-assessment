@@ -2,11 +2,11 @@ from src.controller import Controller
 
 
 def play():
-    print("Starting")
     controller = Controller()
     controller.add_player("Oli")
     controller.add_player("Tom")
-    print(controller)
+
+    controller.start_game()
 
 
 if __name__ == '__main__':

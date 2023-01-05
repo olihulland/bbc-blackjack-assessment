@@ -17,14 +17,35 @@ class Player:
     def __repr__(self) -> str:
         return self.__str__()
 
-    def hit(self):
+    def hit(self) -> Card:
         """The player chooses to hit. Draws a card from the deck and adds it to the hand."""
-        self.__hand.addCard(self.deck.draw())
+        newCard = self.deck.draw()
+        self.__hand.addCard(newCard)
+        return newCard
 
     def stand(self):
         """The player chooses to stand. Does nothing."""
         # do nothing, have included for extensibility
         pass
+
+    def play_turn(self):
+        """Play the player's turn. The player will hit until they are bust or stand."""
+        print(f"{self.name}'s turn")
+        
+        playing = True
+        while playing:
+            print(f"Current hand: {self.cards}")
+            choice = input("Hit or stand (h/s): ")
+            if choice.lower() == "h":
+                newCard = self.hit()
+                print(f"Hit! New card: {newCard}")
+                if self.bust:
+                    print("Bust! You lose this round!")
+                    playing = False
+            elif choice.lower() == "s":
+                playing = False
+            else:
+                print("Invalid choice")
 
     @property
     def cards(self) -> list[Card]:
@@ -52,3 +73,12 @@ class Player:
             bool: Whether the player is bust.
         """
         return self.__hand.bust
+
+    @property
+    def status(self) -> str:
+        """Get the status of the player.
+        
+        Returns:
+            str: The status of the player.
+        """
+        return self.name + ": " + str(self.__hand)
