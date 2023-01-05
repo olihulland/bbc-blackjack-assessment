@@ -1,20 +1,22 @@
 from src.card import Card
-from src.deck import Deck
 
 class Hand:
     """A class representing a hand of cards - starting with 2."""
 
-    def __init__(self, deck: Deck):
+    def __init__(self, initCards: list[Card]):
         """Create a new hand with two cards to start."""
-        self.cards: list[Card] = []
+        self.__cards: list[Card] = []
 
-        self.cards.append(deck.draw())
-        self.cards.append(deck.draw())
+        if initCards is not None:
+            self.__cards = initCards
+
+        self.__score = Hand.getBestTotal(self.__cards)
 
     def __str__(self):
-        return str(self.cards)
+        return str(self.__cards)
 
-    def getBestTotal(self) -> int:
+    @staticmethod
+    def getBestTotal(cards: list[Card]) -> int:
         """Get the best total of the hand.
         
         Returns:
@@ -23,7 +25,7 @@ class Hand:
         total = 0
         numOfAces = 0
 
-        for card in self.cards:
+        for card in cards:
             value = card.getValue()
             total += value[0]
 
@@ -36,10 +38,38 @@ class Hand:
         
         return total
 
-    def checkBust(self) -> bool:
+    @property
+    def cards(self) -> list[Card]:
+        """Get the cards in the hand.
+        
+        Returns:
+            list[Card]: The cards in the hand.
+        """
+        return self.__cards
+
+    @property
+    def score(self) -> int:
+        """Get the score of the hand.
+        
+        Returns:
+            int: The score of the hand.
+        """
+        return self.__score
+
+    @property
+    def bust(self) -> bool:
         """Check if the hand is bust.
         
         Returns:
             bool: True if the hand is bust, False otherwise.
         """
-        return self.getBestTotal() > 21
+        return self.__score > 21
+
+    def addCard(self, card: Card):
+        """Add a card to the hand.
+        
+        Args:
+            card (Card): The card to add.
+        """
+        self.__cards.append(card)
+        self.__score = Hand.getBestTotal(self.__cards)
