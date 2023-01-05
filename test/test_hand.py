@@ -1,7 +1,7 @@
 import unittest
-from src.deck import Deck
-from src.hand import Hand
-from src.card import Card
+from src.logic.deck import Deck
+from src.logic.hand import Hand
+from src.logic.card import Card
 
 class HandTestCase(unittest.TestCase):
     def setUp(self):  # this method will be run before each test

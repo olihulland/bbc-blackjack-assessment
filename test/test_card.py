@@ -1,5 +1,5 @@
 import unittest
-from src.card import Card
+from src.logic.card import Card
 
 class CardTestCase(unittest.TestCase):
     def setUp(self):  # this method will be run before each test

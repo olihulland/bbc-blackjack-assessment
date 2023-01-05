@@ -1,6 +1,6 @@
 import unittest
-from src.player import Player
-from src.deck import Deck
+from src.logic.player import Player
+from src.logic.deck import Deck
 
 class PlayerTestCase(unittest.TestCase):
     def setUp(self):  # this method will be run before each test

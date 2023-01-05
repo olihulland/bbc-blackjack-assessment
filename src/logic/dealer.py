@@ -1,5 +1,5 @@
-from src.player import Player
-from src.deck import Deck
+from src.logic.player import Player
+from src.logic.deck import Deck
 
 class Dealer(Player):
     """The dealer in the game."""

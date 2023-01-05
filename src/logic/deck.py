@@ -1,5 +1,5 @@
 from random import randint
-from src.card import Card
+from src.logic.card import Card
 
 class Deck:
     """A class representing a deck of 52 cards.

@@ -1,4 +1,4 @@
-from src.card import Card
+from src.logic.card import Card
 
 class Hand:
     """A class representing a hand of cards - starting with 2."""

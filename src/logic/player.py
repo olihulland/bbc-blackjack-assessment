@@ -1,6 +1,6 @@
-from src.card import Card
-from src.deck import Deck
-from src.hand import Hand
+from src.logic.card import Card
+from src.logic.deck import Deck
+from src.logic.hand import Hand
 
 class Player:
     """A player in the game."""

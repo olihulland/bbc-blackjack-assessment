@@ -1,6 +1,6 @@
-from src.player import Player
-from src.deck import Deck
-from src.dealer import Dealer
+from src.logic.player import Player
+from src.logic.deck import Deck
+from src.logic.dealer import Dealer
 
 class Controller:
     """Class that controls the game."""
@@ -53,6 +53,7 @@ class Controller:
             for player in self.players:
                 if player.bust:
                     print(player.name + " busts! They lose this round!")
+                    continue
                 playerScore = player.score
                 if playerScore > dealerScore:
                     print(f"{player.name} wins with {playerScore}!")

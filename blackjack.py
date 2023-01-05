@@ -1,4 +1,4 @@
-from src.controller import Controller
+from src.logic.controller import Controller
 
 
 def play():
