@@ -19,7 +19,9 @@ class Player:
 
     def hit(self) -> Card:
         """The player chooses to hit. Draws a card from the deck and adds it to the hand."""
+        print("choose to hit")
         newCard = self.deck.draw()
+        print(f"new card: {newCard}")
         self.__hand.addCard(newCard)
         return newCard
 

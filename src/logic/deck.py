@@ -25,6 +25,8 @@ class Deck:
         Returns:
             Card: The card that was drawn.
         """
+        if len(self.cards) == 0:
+            raise Exception("No cards left in deck")
         index = randint(0, len(self.cards) - 1)
         self.cards[index].upside_down = False
         return self.cards.pop(index)
