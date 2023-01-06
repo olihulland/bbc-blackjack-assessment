@@ -9,7 +9,7 @@ class Card:
     SUITS = ["Clubs", "Diamonds", "Hearts", "Spades"]
     RANKS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 
-    def __init__(self, suit: str, rank: str):
+    def __init__(self, suit: str, rank: str, upside_down: bool = False):
         """Create a new card with the given suit and rank.
 
         Args:
@@ -26,8 +26,11 @@ class Card:
 
         self.suit = suit.capitalize()
         self.rank = rank.upper()
+        self.upside_down = upside_down
 
     def __str__(self):
+        if self.upside_down:
+            return "?"
         return self.rank + " of " + self.suit
 
     def __repr__(self):

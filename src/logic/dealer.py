@@ -6,15 +6,7 @@ class Dealer(Player):
 
     def __init__(self, deck: Deck):
         super().__init__("Dealer", deck)
-
-    @property
-    def status(self) -> str:
-        """Get the status of the dealer.
-
-        Returns:
-            str: The status of the dealer.
-        """
-        return f"{self.name}: [{self.cards[0]}, ?]"
+        self.cards[1].upside_down = True
 
     def play_turn(self):
         """Play the dealer's turn. The dealer continues to hit untile they have at least 17."""
