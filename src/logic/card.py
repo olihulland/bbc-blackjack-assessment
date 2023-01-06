@@ -15,6 +15,7 @@ class Card:
         Args:
             suit (str): The suit of the card.
             rank (str): The rank of the card.
+            upside_down (bool, optional): Whether the card is upside down. Defaults to False.
 
         Raises:
             ValueError: If the suit or rank is invalid.
