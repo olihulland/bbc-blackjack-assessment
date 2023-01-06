@@ -6,7 +6,14 @@ from src.gui.decksprite import DeckSprite
 
 # code takes inspiration from arcade docs - https://api.arcade.academy/en/latest/tutorials/card_game/index.html#
 
-class Table(arcade.Window):
+# need to use https://api.arcade.academy/en/2.6.0/tutorials/views/index.html to have a view after displaying scores
+# then need to have a way to play another round
+# also need to keep a record of wins for each player so can play multiple rounds and keep track of wins
+
+# can do round over screen that displays the result that the dealer got and then the option to play another round
+# then can have a game over screen that displays the final scores if wanted
+
+class Controller(arcade.Window):
     def __init__(self, game: Game):
         super().__init__(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT, "Blackjack")
         arcade.set_background_color(arcade.color.AMAZON)
@@ -108,7 +115,7 @@ class Table(arcade.Window):
 
         self.dealer_draw()
 
-        self.__status = "dealer_done"
+        self.__status = "dealer_done" # FIXME shouldnt do this here - should be in dealer draw since pauses make it async
 
 
     def dealer_draw(self):

@@ -1,5 +1,5 @@
 from src.logic.game import Game
-from src.gui.table import Table
+from src.gui.controller import Controller
 import arcade
 
 
@@ -11,7 +11,7 @@ def play():
     logic.add_player("Emi")
 
     # setup the gui
-    table = Table(logic)
+    table = Controller(logic)
     table.setup()
 
     # start the gui
