@@ -75,7 +75,11 @@ class Position():
             colour = arcade.color.BANGLADESH_GREEN
         if not self.__pos == "bottom":
             arcade.draw_rectangle_outline(self.x, self.y, self.width, self.height, colour, 2)
-        arcade.draw_text(prefix+self.player.name, textX, textY, arcade.color.WHITE, 16, align="center", anchor_x="center", anchor_y="center", width=300, rotation=rotation)
+
+        textColour = arcade.color.WHITE
+        if self.player.bust:
+            textColour = arcade.color.RED
+        arcade.draw_text(prefix+self.player.name, textX, textY, textColour, 16, align="center", anchor_x="center", anchor_y="center", width=300, rotation=rotation)
 
         # draw cards
         self.cards.draw()

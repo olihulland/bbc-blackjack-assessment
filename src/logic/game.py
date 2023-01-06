@@ -2,8 +2,8 @@ from src.logic.player import Player
 from src.logic.deck import Deck
 from src.logic.dealer import Dealer
 
-class GameLogic:
-    """Class that controls the game."""
+class Game:
+    """Class that contains the game information."""
 
     def __init__(self):
         """Create a new logic."""
@@ -34,6 +34,26 @@ class GameLogic:
             raise Exception("Cannot add player while game is in progress")
 
         self.players.append(Player(name, self.deck))
+
+    def hit(self, player: Player) -> bool:
+        """A player chooses to hit.
+        
+        Args:
+            player (Player): The player that chooses to hit.
+            
+        Returns:
+            bool: Whether the player is bust. True if bust, False otherwise.
+        """
+        player.hit()
+        return player.bust
+
+    def stand(self, player: Player):
+        """A player chooses to stand.
+        
+        Args:
+            player (Player): The player that chooses to stand.
+        """
+        player.stand()
 
 
     def print_hands(self):

@@ -10,6 +10,7 @@ class Player:
         self.name = name
         self.deck = deck
         self.__hand = Hand([deck.draw(), deck.draw()])
+        self.played = False
 
     def __str__(self):
         return self.name + ": " + str(self.__hand)
@@ -19,9 +20,7 @@ class Player:
 
     def hit(self) -> Card:
         """The player chooses to hit. Draws a card from the deck and adds it to the hand."""
-        print("choose to hit")
         newCard = self.deck.draw()
-        print(f"new card: {newCard}")
         self.__hand.addCard(newCard)
         return newCard
 
@@ -29,25 +28,6 @@ class Player:
         """The player chooses to stand. Does nothing."""
         # do nothing, have included for extensibility
         pass
-
-    def play_turn(self):
-        """Play the player's turn. The player will hit until they are bust or stand."""
-        print(f"{self.name}'s turn")
-        
-        playing = True
-        while playing:
-            print(f"Current hand: {self.cards}")
-            choice = input("Hit or stand (h/s): ")
-            if choice.lower() == "h":
-                newCard = self.hit()
-                print(f"Hit! New card: {newCard}")
-                if self.bust:
-                    print("Bust! You lose this round!")
-                    playing = False
-            elif choice.lower() == "s":
-                playing = False
-            else:
-                print("Invalid choice")
 
     @property
     def cards(self) -> list[Card]:

@@ -1,11 +1,11 @@
-from src.logic.gamelogic import GameLogic
+from src.logic.game import Game
 from src.gui.table import Table
 import arcade
 
 
 def play():
     # setup the game logic
-    logic = GameLogic()
+    logic = Game()
     logic.add_player("Oli")
     logic.add_player("Tom")
     logic.add_player("Emi")
