@@ -24,8 +24,8 @@ class Position():
                 totalL = len(self.player.cards) * (Constants.CARD_WIDTH + 5)
                 cardSprite.position = ((self.x - (totalL/2)) + (i*(Constants.CARD_WIDTH + 5) + Constants.CARD_WIDTH/2), self.y)
             else:
-                totalL = len(self.player.cards) * (Constants.CARD_HEIGHT*0.25)
-                cardSprite.position = (self.x, (self.y + totalL/2) - (i * (Constants.CARD_HEIGHT*0.25)))
+                totalL = len(self.player.cards) * (Constants.CARD_WIDTH * 0.3)
+                cardSprite.position = (self.x, self.y - totalL/2 + (i * (Constants.CARD_WIDTH * 0.3)))
                 cardSprite.angle = 90
             self.cards.append(cardSprite)
 
