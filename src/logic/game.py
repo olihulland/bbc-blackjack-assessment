@@ -55,6 +55,12 @@ class Game:
         """
         player.stand()
 
+    def dealer_round(self):
+        """Preps for dealer round.
+        
+        Flips the dealer's second card."""
+        self.dealer.cards[1].upside_down = False
+
 
     def print_hands(self):
         """Print the hands of the players and the dealer."""

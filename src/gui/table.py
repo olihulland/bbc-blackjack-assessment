@@ -43,7 +43,10 @@ class Table(arcade.Window):
             nextPos = possible_pos[(i+1) % len(possible_pos)]
             if nextPos == "bottom":
                 if position.player.played:
-                    self.__status = "finished"
+                    self.__status = "dealer"
+                    self.__game.dealer_round()      # flip dealer's hidden card
+                    self.update_dealer_cards()
+                    self.pause(2, self.dealer_round)
                     return
                 self.__activePlayer = position.player
             position.set_pos(nextPos)
@@ -58,21 +61,31 @@ class Table(arcade.Window):
         elif self.__status == "bust":
             text = arcade.create_text_sprite("Bust! You lose...", Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2 - 80, arcade.color.RED, 20, anchor_x="center")
             text.draw()
-        elif self.__status == "finished":
+        elif self.__status == "dealer":
             text = arcade.create_text_sprite("Round finished! Time for the dealer to draw.", Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2 - 80, arcade.color.GOLD, 20, anchor_x="center")
             text.draw()
-
-    def on_mouse_release(self, x: int, y: int, button: int, modifiers: int):
-        if self.__status != "playing":
-            return
-        deck = arcade.get_sprites_at_point((x, y), self.__deckSprite)
-        if len(deck) > 0:
-            self.hit()
+        elif self.__status == "dealer_done":
+            text = arcade.create_text_sprite("Dealer finished drawing!", Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2 - 80, arcade.color.GOLD, 20, anchor_x="center")
+            text.draw()
 
     def update_active_cards(self):
         for position in self.__positions:
             if position.player == self.__activePlayer:
                 position.update()
+
+    def update_dealer_cards(self):
+        for position in self.__positions:
+            if position.player == self.__game.dealer:
+                position.update()
+
+    def pause(self, target: float, action: callable):
+        self.__pause_target = target
+        self.__pause_action = action
+        self.__pause_elapsed = 0
+
+    def resume_with_next(self):
+        self.__status = "playing"
+        self.move_next_player()
 
     def hit(self):
         isBust = self.__game.hit(self.__activePlayer)
@@ -82,11 +95,6 @@ class Table(arcade.Window):
             self.__status = "bust"
             self.pause(2, self.resume_with_next)
 
-    def pause(self, target: float, action: callable):
-        self.__pause_target = target
-        self.__pause_action = action
-        self.__pause_elapsed = 0
-
     def stand(self):
         if self.__status == "stand":
             return
@@ -94,9 +102,21 @@ class Table(arcade.Window):
         self.__game.stand(self.__activePlayer)
         self.pause(1, self.resume_with_next)
 
-    def resume_with_next(self):
-        self.__status = "playing"
-        self.move_next_player()
+    def dealer_round(self):
+        self.__status = "dealer"
+        self.update_dealer_cards()
+
+        self.dealer_draw()
+
+        self.__status = "dealer_done"
+
+
+    def dealer_draw(self):
+        if self.__game.dealer.score < 17:
+            isBust = self.__game.hit(self.__game.dealer)
+            self.__deckSprite.update()
+            self.update_dealer_cards()
+            self.pause(2, self.dealer_draw)
 
     def on_draw(self):
         """Render the screen."""
@@ -121,3 +141,9 @@ class Table(arcade.Window):
             return
         self.stand()
 
+    def on_mouse_release(self, x: int, y: int, button: int, modifiers: int):
+        if self.__status != "playing":
+            return
+        deck = arcade.get_sprites_at_point((x, y), self.__deckSprite)
+        if len(deck) > 0:
+            self.hit()
