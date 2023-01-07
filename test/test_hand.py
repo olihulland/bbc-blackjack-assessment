@@ -14,31 +14,31 @@ class HandTestCase(unittest.TestCase):
         hand = Hand([Card("Spades", "10"), Card("Clubs", "10")])
         self.assertEqual(hand.bust, False)
         originalScore = hand.score
-        hand.addCard(Card("Diamonds", "10"))
+        hand.add_card(Card("Diamonds", "10"))
         self.assertEqual(hand.score, originalScore + 10)
 
     def test_valid_21_under(self):
         hand = Hand([Card("Spades", "10"), Card("Clubs", "10")])
         self.assertEqual(hand.bust, False)  # 20 is not bust
-        hand.addCard(Card("Diamonds", "A"))
+        hand.add_card(Card("Diamonds", "A"))
         self.assertEqual(hand.bust, False)  # 21 is not bust
 
     def test_bust_22_over(self):
         hand = Hand([Card("Spades", "10"), Card("Clubs", "10")])
-        hand.addCard(Card("Diamonds", "2"))
+        hand.add_card(Card("Diamonds", "2"))
         self.assertEqual(hand.bust, True)  # 22 is bust
 
     def test_score_hand_1(self):
         cards = [Card("Hearts", "K"), Card("Hearts", "A")]
-        self.assertEqual(Hand.getBestTotal(cards), 21)
+        self.assertEqual(Hand.get_best_total(cards), 21)
 
     def test_score_hand_2(self):
         cards = [Card("Hearts", "K"), Card("Hearts", "Q"), Card("Hearts", "A")]
-        self.assertEqual(Hand.getBestTotal(cards), 21)
+        self.assertEqual(Hand.get_best_total(cards), 21)
 
     def test_score_hand_3(self):
         cards = [Card("Hearts", "9"), Card("Hearts", "A"), Card("Hearts", "A")]
-        self.assertEqual(Hand.getBestTotal(cards), 21)
+        self.assertEqual(Hand.get_best_total(cards), 21)
 
 
 if __name__ == '__main__':

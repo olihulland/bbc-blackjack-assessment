@@ -3,10 +3,24 @@ from src.logic.deck import Deck
 from src.logic.hand import Hand
 
 class Player:
-    """A player in the game."""
+    """Represents a player in the game.
+    
+    Attributes:
+        name (str): The name of the player.
+        deck (Deck): The deck of cards.
+        hand (Hand): The hand of the player.
+        played (bool): Whether the player has played this round.
+        wins (int): The number of wins of the player.
+        ties (int): The number of ties of the player.
+    """
 
     def __init__(self, name: str, deck: Deck):
-        """Create a new player with the given name."""
+        """Create a new player with the given name.
+        
+        Args:
+            name (str): The name of the player.
+            deck (Deck): The deck of cards to draw from.
+        """
         self.name = name
         self.deck = deck
         self.__hand = Hand([deck.draw(), deck.draw()])
@@ -20,20 +34,23 @@ class Player:
     def __repr__(self) -> str:
         return self.__str__()
 
-    def new_round(self) -> None:
-        """Sets up for a new round - redeals cards"""
-        self.__hand = Hand([self.deck.draw(), self.deck.draw()])
-
     def hit(self) -> Card:
-        """The player chooses to hit. Draws a card from the deck and adds it to the hand."""
+        """The player chooses to hit. Draws a card from the deck and adds it to the hand.
+        
+        Returns:
+            Card: The card that was drawn.
+        """
         newCard = self.deck.draw()
-        self.__hand.addCard(newCard)
+        self.__hand.add_card(newCard)
         return newCard
 
     def stand(self):
-        """The player chooses to stand. Does nothing."""
-        # do nothing, have included for extensibility
+        """The player chooses to stand. Does nothing but included for extensibility."""
         pass
+
+    def new_round(self):
+        """Sets up for a new round - redeals cards"""
+        self.__hand = Hand([self.deck.draw(), self.deck.draw()])
 
     @property
     def cards(self) -> list[Card]:

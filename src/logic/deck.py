@@ -4,12 +4,18 @@ from src.logic.card import Card
 class Deck:
     """A class representing a deck of 52 cards.
 
+    Note that the deck is not shuffled. The cards are drawn randomly instead.
+
     Attributes:
         cards (list[Card]): The cards in the deck.
     """
 
     def __init__(self):
-        """Create a new deck of cards."""
+        """Create a new deck of cards.
+        
+        The cards are created in order of suit and rank. The cards are
+        initially upside down.
+        """
         self.cards: list[Card] = []
 
         for suit in Card.SUITS:
@@ -21,6 +27,9 @@ class Deck:
 
     def draw(self) -> Card:
         """Draw a random card from the deck.
+
+        Note that there is no need to shuffle the deck as the cards are
+        randomly drawn.
 
         Returns:
             Card: The card that was drawn.

@@ -3,10 +3,18 @@ from src.logic.deck import Deck
 from src.logic.dealer import Dealer
 
 class Game:
-    """Class that contains the game information."""
+    """Class that contains the game information.
+    
+    Attributes:
+        deck (Deck): The deck of cards.
+        players (list[Player]): The players in the game.
+        dealer (Dealer): The dealer in the game.
+    """
 
     def __init__(self):
-        """Create a new logic."""
+        """Create new game information. 
+        With a new deck, a dealer, and no players.
+        """
         self.__deck = Deck()
         self.__players: list[Player] = []
         self.__dealer = Dealer(self.deck)
@@ -65,7 +73,7 @@ class Game:
         """Calculates the end of the round.
         
         Returns:
-            list[str]: The results of the round.
+            list[str]: The results of the round. Each index corresponds to the player.
         """
         results = []
         for player in self.players:

@@ -10,18 +10,18 @@ class CardTestCase(unittest.TestCase):
 
     def test_value_of_ace(self):
         card = Card("Hearts", "A")
-        self.assertEqual(card.getValue(), [1, 11])
+        self.assertEqual(card.get_value(), [1, 11])
 
     def test_value_of_all_face_cards(self):
         for rank in ["J", "Q", "K"]:
             card = Card("Hearts", rank)
-            self.assertEqual(card.getValue(), [10])
+            self.assertEqual(card.get_value(), [10])
 
     def test_value_of_all_numbers(self):
         for i in range(2, 1):
             rank = str(i)
             card = Card("Hearts", rank)
-            self.assertEqual(card.getValue(), [int(rank)])
+            self.assertEqual(card.get_value(), [int(rank)])
 
     def test_invalid_suit(self):
         with self.assertRaises(ValueError):
