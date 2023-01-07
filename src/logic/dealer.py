@@ -18,3 +18,8 @@ class Dealer(Player):
 
         print("Dealer stands")
         print(f"Final hand: {self.cards}")
+
+    def new_round(self) -> None:
+        """Sets up for a new round - redeals cards and flips the second card upside down."""
+        super().new_round()
+        self.cards[1].upside_down = True

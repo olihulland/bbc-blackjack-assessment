@@ -30,3 +30,11 @@ class Deck:
         index = randint(0, len(self.cards) - 1)
         self.cards[index].upside_down = False
         return self.cards.pop(index)
+
+    def repopulate(self):
+        """Repopulate the deck with 52 cards."""
+        self.cards = []
+
+        for suit in Card.SUITS:
+            for rank in Card.RANKS:
+                self.cards.append(Card(suit, rank, True))

@@ -3,19 +3,15 @@ from src.logic.game import Game
 from src.gui.position import Position
 from src.gui.constants import Constants
 from src.gui.decksprite import DeckSprite
+from src.gui.roundendscreen import RoundEndScreen
 
 # code takes inspiration from arcade docs - https://api.arcade.academy/en/latest/tutorials/card_game/index.html#
-
-# need to use https://api.arcade.academy/en/2.6.0/tutorials/views/index.html to have a view after displaying scores
-# then need to have a way to play another round
-# also need to keep a record of wins for each player so can play multiple rounds and keep track of wins
-
-# can do round over screen that displays the result that the dealer got and then the option to play another round
-# then can have a game over screen that displays the final scores if wanted
-
-class Controller(arcade.Window):
+class Controller(arcade.View):
     def __init__(self, game: Game):
-        super().__init__(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT, "Blackjack")
+        window = arcade.Window(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT, "Blackjack")
+        super().__init__()
+        window.show_view(self)
+
         arcade.set_background_color(arcade.color.AMAZON)
 
         self.__game = game
@@ -23,18 +19,28 @@ class Controller(arcade.Window):
         self.__positions: list[Position] = []
         self.__deckSprite = DeckSprite(self.__deck, Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2 + 70)
         self.__activePlayer = None
-
         self.__status = "playing"
 
+        # used for a non-blocking pause - see pause() method and on_update()
         self.__pause_elapsed = None
         self.__pause_target = None
         self.__pause_action: callable = None
 
     def setup(self):
+        # reinitialise - used for a new round
+        self.__positions: list[Position] = []
+        self.__deckSprite = DeckSprite(self.__deck, Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2 + 70)
+        self.__activePlayer = None
+        self.__status = "playing"
+        self.__pause_elapsed = None
+        self.__pause_target = None
+        self.__pause_action: callable = None
+
         self.__positions.append(Position("top", self.__game.dealer))
         pos = ["bottom", "left", "right"]
         for i, player in enumerate(self.__game.players):
             self.__positions.append(Position(pos[i], player))
+            player.played = False
         self.__activePlayer = self.__game.players[0]
 
     def move_next_player(self):
@@ -58,7 +64,7 @@ class Controller(arcade.Window):
                 self.__activePlayer = position.player
             position.set_pos(nextPos)
 
-    def draw_prompt(self):
+    def handle_state(self):
         if self.__status == "playing":
             text = arcade.create_text_sprite("Click on the deck to hit or press any key to stand.", Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2 - 80, arcade.color.WHITE, 20, anchor_x="center")
             text.draw()
@@ -71,9 +77,20 @@ class Controller(arcade.Window):
         elif self.__status == "dealer":
             text = arcade.create_text_sprite("Round finished! Time for the dealer to draw.", Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2 - 80, arcade.color.GOLD, 20, anchor_x="center")
             text.draw()
-        elif self.__status == "dealer_done":
-            text = arcade.create_text_sprite("Dealer finished drawing!", Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2 - 80, arcade.color.GOLD, 20, anchor_x="center")
+        elif "dealer_done" in self.__status:
+            text = arcade.create_text_sprite("Dealer finished drawing ...", Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT/2 - 80, arcade.color.GOLD, 20, anchor_x="center")
             text.draw()
+            if "paused" not in self.__status:
+                self.pause(2, self.show_round_end)
+                self.__status += "_paused"
+
+    def show_round_end(self):
+        self.window.show_view(RoundEndScreen(self.__game, self.next_round))
+
+    def next_round(self):
+        self.__game.new_round()
+        self.setup()
+        self.window.show_view(self)
 
     def update_active_cards(self):
         for position in self.__positions:
@@ -86,6 +103,8 @@ class Controller(arcade.Window):
                 position.update()
 
     def pause(self, target: float, action: callable):
+        if self.__pause_elapsed is not None:
+            raise Exception("Already using pause")
         self.__pause_target = target
         self.__pause_action = action
         self.__pause_elapsed = 0
@@ -115,15 +134,15 @@ class Controller(arcade.Window):
 
         self.dealer_draw()
 
-        self.__status = "dealer_done" # FIXME shouldnt do this here - should be in dealer draw since pauses make it async
-
 
     def dealer_draw(self):
         if self.__game.dealer.score < 17:
-            isBust = self.__game.hit(self.__game.dealer)
+            self.__game.hit(self.__game.dealer)
             self.__deckSprite.update()
             self.update_dealer_cards()
             self.pause(2, self.dealer_draw)
+        else: 
+            self.__status = "dealer_done"
 
     def on_draw(self):
         """Render the screen."""
@@ -131,7 +150,7 @@ class Controller(arcade.Window):
         for position in self.__positions:
             position.draw()
         self.__deckSprite.draw()
-        self.draw_prompt()
+        self.handle_state()
     
     def on_update(self, delta_time: float):
         if self.__pause_target is not None:

@@ -61,6 +61,36 @@ class Game:
         Flips the dealer's second card."""
         self.dealer.cards[1].upside_down = False
 
+    def end_round_calc(self) -> list[str]:
+        """Calculates the end of the round.
+        
+        Returns:
+            list[str]: The results of the round.
+        """
+        results = []
+        for player in self.players:
+            if player.bust:
+                results.append("Lose - Bust")
+            elif self.dealer.bust:
+                results.append("Win - Dealer Bust")
+                player.add_win()
+            elif player.score > self.dealer.score:
+                results.append("Win" if player.score != 21 else "Win - Blackjack!")
+                player.add_win()
+            elif player.score < self.dealer.score:
+                results.append("Lose")
+            else:
+                results.append("Tie")
+                player.add_tie()
+        return results
+
+    def new_round(self):
+        """Called to setup for a new round. Reshuffles full deck. Re-deals for each player."""
+        self.__deck.repopulate()
+        self.__dealer.new_round()
+        for player in self.__players:
+            player.new_round()
+
 
     def print_hands(self):
         """Print the hands of the players and the dealer."""
