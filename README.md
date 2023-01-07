@@ -19,6 +19,7 @@ The code is split into 3 main parts:
 ### Running the game
 - Open a terminal window and navigate to the folder containing this README.
 - Run `python3 blackjack.py` (or `python blackjack.py` depending on setup)
+*Note: If you are running on a Mac you may be prompted to grant permissions for input monitoring to enable to game to run.*
 - Complete the steps as prompted in the terminal window. The game window should appear once the players have been added.
 
 ### Running the unit tests
