@@ -1,47 +1,34 @@
-## Blackjack Tech Test - Starter Code
+# Blackjack Tech Test - BBC Software Engineering Graduate Scheme
 
-This code is offered as a potential starting point for completing the BBC Software Engineering Graduate Scheme tech test.
-You do **not** have to use this starter code.
+The code in this repository is my attempt at the tech test. It provides a playable game of Blackjack with 2D graphics.
+
+The game is limited to 2-3 players (& a dealer), this is to simplify the graphics however the classes in `logic/` don't have such limitations.
+
+## Structure
+
+The code is split into 3 main parts:
+- `logic/` - this contains the game information and logic for scoring hands. This alone should satisfy the scenario requirements of the test.
+- `gui/` - this contains the graphical user interface for the game. It is written using the arcade library and is a simple 2D game.
+- `test/` - this contains the unit tests for the game logic. They test for the scenarios given in the brief and some additional tests to support my test driven development. The tests representing the scenarios are commented with the scenario description.
+
+## Running
+### Requirements
+- Python 3 (I used 3.9 - earlier versions of python may work but are untested. Type hintings may cause issues in earlier versions.)
+- Arcade library for graphics - this can be installed using `pip install arcade` or `pip3 install arcade` depending on your setup.
+
+### Running the game
+- Open a terminal window and navigate to the folder containing this README.
+- Run `python3 blackjack.py` (or `python blackjack.py` depending on setup)
+- Complete the steps as prompted in the terminal window. The game window should appear once the players have been added.
+
+### Running the unit tests
+- Open a terminal window and navigate to the folder containing this README.
+- Run `python3 -m unittest discover test` (or `python -m unittest discover test` depending on setup)
 
 
-### Getting started
+## Credits
+The card images are sourced from [here](https://opengameart.org/content/boardgame-pack).
+Credit: [kenney.nl](https://www.kenney.nl/)
+Licence: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication.
 
-- Ensure you can run the provided code. 
-    - If you have Python 3 installed:
-        - Open a terminal window and navigate to the folder containing this README.
-        - Type `python3 blackjack.py`
-        - Look for a welcome message in the console.
-    - If that doesn't work, check your setup and download Python 3 if needed:
-        - https://wiki.python.org/moin/BeginnersGuide/Download
-- Ensure you can run the unit tests.
-    - From the same terminal window, type `python3 -m unittest discover test`.
-    - Python should find and run the one provided failing test.
-    
-
-### Adding to the starter code
-
-- A great place to start is by making that first test pass.
-    - Clue- the provided Deck class has an array of cards, and it's empty!
-- A TDD (test-driven development) approach can be useful:
-    - write a failing test that describes what you want your code to do
-        - e.g. 'a deck should have 52 cards'
-    - modify the code that you're testing so that the test passes
-        - e.g. the deck actually *has* 52 cards!
-- You can add more test files:
-    - keep them in the `test/` directory
-    - make sure they have filenames beginning with `test`
-    - make sure test methods within those files also begin with `test`
-- You can add more source files:
-    - keep them in the `src/` directory
-- You can use any approach you want
-    - The provided code hints at an object-oriented approach (since we have a Deck class)
-    - if you wanted to extend this approach, you might want to create classes for Hand, Card, Dealer, etc.
-    
-### Completing the task
-
-- Remember, the task is to write code that accurately scores a hand of blackjack, *not* to make a whole game
-- This means you *don't* need to have a running program to complete this test
-    - You can just prove your code works with unit tests
-- You can *choose* to make a running program that demonstrates that your code works
-    - If you want to do this, you should extend the `play` method of `blackjack.py`
-    - This method is the entry point when you do `python3 blackjack.py`.
+The code is built upon the provided starter code.

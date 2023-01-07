@@ -10,6 +10,7 @@ class PlayerTestCase(unittest.TestCase):
         pass
 
     def test_new_player_has_2_cards(self):
+        """When I am dealt an opening hand, I should have 2 cards"""
         player = Player("Test", self.deck)
         self.assertEqual(len(player.cards), 2)
 
@@ -18,6 +19,7 @@ class PlayerTestCase(unittest.TestCase):
         self.assertEqual(player.bust, False)
 
     def test_player_hit(self):
+        """Given that I have a valid hand, when I hit, I should have 1 more card and my score should be updated"""
         player = Player("Test", self.deck)
         originalScore = player.score
         originalDeckSize = len(player.cards)
