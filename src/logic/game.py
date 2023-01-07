@@ -70,7 +70,7 @@ class Game:
         self.dealer.cards[1].upside_down = False
 
     def end_round_calc(self) -> list[str]:
-        """Calculates the end of the round.
+        """Calculates the end of the round and adds the results to the players.
         
         Returns:
             list[str]: The results of the round. Each index corresponds to the player.

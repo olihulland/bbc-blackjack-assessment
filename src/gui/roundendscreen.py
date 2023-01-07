@@ -4,13 +4,22 @@ from src.logic.game import Game
 from src.gui.cardsprite import CardSprite
 
 class RoundEndScreen(arcade.View):
+    """The screen that displays the results of the round and scores"""
     def __init__(self, game: Game, on_next_round: callable):
+        """Initialises the round end screen and calls the end round calculation to
+        save the results.
+        
+        Args:
+            game (Game): The game information from which to display scores.
+            on_next_round (callable): The function to call if the player wants to play another round.
+        """
         super().__init__()
         self.__game = game
         self.__on_next_round = on_next_round
         self.results = self.__game.end_round_calc()
 
     def on_draw(self):
+        """Draws the round end screen."""
         self.clear()
         arcade.draw_text("Round End", Constants.WINDOW_WIDTH/2, Constants.WINDOW_HEIGHT - 50, arcade.color.WHITE, 20, anchor_x="center", anchor_y="center")
 
@@ -66,4 +75,5 @@ class RoundEndScreen(arcade.View):
         arcade.draw_text("Press any key to play another round", Constants.WINDOW_WIDTH/2, 50, arcade.color.WHITE, 20, anchor_x="center", anchor_y="center")
 
     def on_key_press(self, symbol: int, modifiers: int):
+        """Calls the next round function if the player presses any key."""
         self.__on_next_round()

@@ -1,7 +1,9 @@
 class Constants():
-    # pixels of image multiplied by scale
-    CARD_WIDTH = 140 * 0.5
-    CARD_HEIGHT = 190 * 0.5
+    """Constants used throughout the game."""
+
+    CARD_SCALE = 0.5
+    CARD_WIDTH = 140 * CARD_SCALE
+    CARD_HEIGHT = 190 * CARD_SCALE
 
     POSITION_HEIGHT_HORIZ = 200
     POSITION_WIDTH_HORIZ = 600

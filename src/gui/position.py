@@ -4,7 +4,16 @@ from src.logic.dealer import Dealer
 from src.gui.cardsprite import CardSprite
 from src.gui.constants import Constants
 class Position():
+    """The sprite for a player's position.
+    Displays the cards in the player's hand and the player's name.
+    """
     def __init__(self, pos: str, player: Player):
+        """Initialises the position sprite.
+        
+        Args:
+            pos (str): The position of the player. Can be "top", "bottom", "left" or "right".
+            player (Player): The player (/or dealer) at the position.
+        """
         self.__pos = pos
         self.player = player
         self.cards = arcade.SpriteList()
@@ -14,9 +23,13 @@ class Position():
 
     @property
     def pos(self):
+        """The position of the player. Can be "top", "bottom", "left" or "right"."""
         return self.__pos
 
     def set_cards(self):
+        """Adds the cards in the player's hand to the sprite list.
+        The cards are displayed in a horizontal line for the top and bottom positions
+        and a rotated vertical line for the left and right positions."""
         self.cards = arcade.SpriteList()
         for i, card in enumerate(self.player.cards):
             cardSprite = CardSprite(card)
@@ -30,6 +43,9 @@ class Position():
             self.cards.append(cardSprite)
 
     def gen_dimensions(self):
+        """Generates the dimensions of the position based on the position of the player.
+        The dimensions are stored in the width, height, x and y attributes.
+        """
         if self.__pos == "top":
             self.width = Constants.POSITION_WIDTH_HORIZ
             self.height = Constants.POSITION_HEIGHT_HORIZ
@@ -54,6 +70,12 @@ class Position():
             raise ValueError("Invalid position")
 
     def draw(self):
+        """Draws the position and the cards in the player's hand.
+        The position is drawn as a box with the player's name.
+        If the player is a dealer, the box is green.
+        If the player is bust, the text is red.
+        If the player is the current player, the text is prefixed with "Current Player: ".
+        """
         # draw box and text
         rotation = 0
         textX = self.x
@@ -73,9 +95,10 @@ class Position():
             prefix = "Current Player: "
         if isinstance(self.player, Dealer):
             colour = arcade.color.BANGLADESH_GREEN
-        if not self.__pos == "bottom":
+        if self.__pos != "bottom":
             arcade.draw_rectangle_outline(self.x, self.y, self.width, self.height, colour, 2)
 
+        # draw name
         textColour = arcade.color.WHITE
         if self.player.bust:
             textColour = arcade.color.RED
@@ -85,9 +108,16 @@ class Position():
         self.cards.draw()
 
     def update(self):
+        """Updates the cards in the player's hand."""
         self.set_cards()
 
     def set_pos(self, pos: str):
+        """Sets the position of the player.
+        Used to move the currently playing player.
+
+        Args:
+            pos (str): The position of the player. Can be "top", "bottom", "left" or "right".
+        """
         self.__pos = pos
         self.gen_dimensions()
         self.set_cards()
