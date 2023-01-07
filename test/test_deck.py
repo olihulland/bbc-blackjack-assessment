@@ -1,5 +1,5 @@
 import unittest
-from src.deck import Deck
+from src.logic.deck import Deck
 
 
 class DeckTestCase(unittest.TestCase):

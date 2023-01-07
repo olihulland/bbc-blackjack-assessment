@@ -1,32 +1,41 @@
-from src.card import Card
+from src.logic.card import Card
 
 class Hand:
-    """A class representing a hand of cards - starting with 2."""
+    """A class representing a hand of cards. Keeps track of scores."""
 
     def __init__(self, initCards: list[Card]):
-        """Create a new hand with two cards to start."""
+        """Create a new hand with initial cards.
+        
+        Args:
+            initCards (list[Card]): The initial cards in the hand. In blackjack, this should be 2 cards.
+        """
         self.__cards: list[Card] = []
 
         if initCards is not None:
             self.__cards = initCards
 
-        self.__score = Hand.getBestTotal(self.__cards)
+        self.__score = Hand.get_best_total(self.__cards)
 
     def __str__(self):
         return str(self.__cards)
 
     @staticmethod
-    def getBestTotal(cards: list[Card]) -> int:
-        """Get the best total of the hand.
+    def get_best_total(cards: list[Card]) -> int:
+        """Get the best total of a list of cards.
+
+        Needs to consider aces to determine the best total since aces can be 1 or 11.
+
+        Args:
+            cards (list[Card]): The cards in the list.
         
         Returns:
-            int: The best total of the hand.
+            int: The best total of the list.
         """
         total = 0
         numOfAces = 0
 
         for card in cards:
-            value = card.getValue()
+            value = card.get_value()
             total += value[0]
 
             if len(value) > 1:   # if card has choices then is an ace
@@ -65,11 +74,11 @@ class Hand:
         """
         return self.__score > 21
 
-    def addCard(self, card: Card):
-        """Add a card to the hand.
+    def add_card(self, card: Card):
+        """Add a card to the hand and update the score.
         
         Args:
             card (Card): The card to add.
         """
         self.__cards.append(card)
-        self.__score = Hand.getBestTotal(self.__cards)
+        self.__score = Hand.get_best_total(self.__cards)
